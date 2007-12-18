@@ -57,11 +57,11 @@ class AllTests
         else
         {
             $section = '';
-            $suite = new PHPUnit_Framework_TestSuite('cfhCompile');
+            $suite = new PHPUnit_Framework_TestSuite('cfhCompile Test Suite');
         }
         foreach (new DirectoryIterator($dir) as $item)
         {
-            if($item->isDot())
+            if($item->isDot() || substr($item->getBaseName(), 0, 1) == '.')
             {
                 continue;
             }
