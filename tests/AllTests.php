@@ -83,10 +83,7 @@ class AllTests
             }
             elseif($item->isDir())
             {
-                if(substr($item->getBaseName(), 0, 1) != '_')
-                {
-                    $suite->addTest(self::suite($item->getPathName()));
-                }
+                $suite->addTest(self::suite($item->getPathName()));
             }
         }
         return $suite;
