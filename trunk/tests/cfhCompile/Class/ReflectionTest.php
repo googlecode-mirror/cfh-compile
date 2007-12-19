@@ -67,7 +67,6 @@ extends PHPUnit_Framework_TestCase
         $this->assertNull($c->getFileName());
         $this->assertNull($c->getStartLine());
         $this->assertNull($c->getEndLine());
-        $this->assertNull($c->getSource());
         $this->assertFalse($c->isInterface());
         $deps = $c->getDependancys();
         $this->assertTrue(count($deps) == 5);
@@ -80,15 +79,11 @@ extends PHPUnit_Framework_TestCase
 
     public function testDefinedClass()
     {
-        $start = 20;
-        $end   = 118;
-        $code  = implode(PHP_EOL, array_slice(file(__FILE__), $start - 1, $end - $start + 1));
         $c = new cfhCompile_Class_Reflection($this);
         $this->assertEquals(get_class($this), $c->getName());
         $this->assertEquals(__FILE__, $c->getFileName());
-        $this->assertEquals($start, $c->getStartLine());
-        $this->assertEquals($end, $c->getEndLine());
-        $this->assertEquals($code, $c->getSource());
+        $this->assertEquals(20, $c->getStartLine());
+        $this->assertEquals(112, $c->getEndLine());
         $this->assertFalse($c->isInterface());
         $deps = $c->getDependancys();
         $this->assertTrue(count($deps) == 4);
@@ -106,7 +101,6 @@ extends PHPUnit_Framework_TestCase
         $this->assertNull($c->getFileName());
         $this->assertNull($c->getStartLine());
         $this->assertNull($c->getEndLine());
-        $this->assertNull($c->getSource());
         $this->assertFalse($c->isInterface());
         $deps = $c->getDependancys();
         $this->assertTrue(count($deps) == 3);
