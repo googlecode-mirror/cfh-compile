@@ -46,8 +46,9 @@ implements IteratorAggregate
         $this->registry = new ArrayObject(array());
     }
 
-    final protected function __clone()
+    final public function __clone()
     {
+        throw new RuntimeException('Cant clone '.__CLASS__);
     }
 
     /**

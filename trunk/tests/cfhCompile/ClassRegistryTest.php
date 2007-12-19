@@ -37,6 +37,30 @@ extends PHPUnit_Framework_TestCase
         cfhCompile_ClassRegistry::getInstance()->clear();
     }
 
+    public function testSingleton()
+    {
+        $this->assertSame(
+                          cfhCompile_ClassRegistry::getInstance(),
+                          cfhCompile_ClassRegistry::getInstance()
+                         );
+        $ref = new ReflectionClass('cfhCompile_ClassRegistry');
+        $this->assertFalse($ref->getConstructor()->isPublic());
+    }
+
+    public function testNotClonable()
+    {
+        $r = cfhCompile_ClassRegistry::getInstance();
+        try
+        {
+            clone $r;
+        }
+        catch(RuntimeException $e)
+        {
+            return;
+        }
+        $this->fail('Expecting to catch a RuntimeException.');
+    }
+
     public function testRegisterReturnsSameObject()
     {
         $r = cfhCompile_ClassRegistry::getInstance();
