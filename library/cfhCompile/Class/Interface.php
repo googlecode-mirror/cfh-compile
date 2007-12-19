@@ -42,12 +42,6 @@ interface cfhCompile_Class_Interface
     public function getEndLine();
 
     /**
-     * Gets the class source code.
-     * @return String
-     */
-    public function getSource();
-
-    /**
      * Is the class an Interface
      * @return Boolean
      */
