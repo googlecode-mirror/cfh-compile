@@ -96,25 +96,6 @@ implements cfhCompile_Class_Interface
     }
 
     /**
-     * Gets the class source code.
-     * @return String
-     */
-    public function getSource()
-    {
-        if(   $this->getFileName()  === NULL
-           || $this->getStartLine() === NULL
-           || $this->getEndLine()   === NULL
-          )
-        {
-            return NULL;
-        }
-        $s = $this->getStartLine() - 1;
-        $e = $this->getEndLine()   - $s;
-        $lines = array_slice(file($this->getFileName()), $s, $e);
-        return implode(PHP_EOL, $lines);
-    }
-
-    /**
      * Is the class an Interface
      * @return Boolean
      */
