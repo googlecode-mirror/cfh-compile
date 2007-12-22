@@ -19,36 +19,13 @@ implements IteratorAggregate
 {
 
     /**
-     * @var cfhCompile_ClassRegistry
-     */
-    static private $instance;
-
-    /**
      * @var ArrayObject
      */
     protected $registry;
 
-    /**
-     * Gets the registry instance
-     * @return cfhCompile_ClassRegistry
-     */
-    final static public function getInstance()
-    {
-        if(!self::$instance)
-        {
-            self::$instance = new self();
-        }
-        return self::$instance;
-    }
-
-    final protected function __construct()
+    public function __construct()
     {
         $this->registry = new ArrayObject(array());
-    }
-
-    final public function __clone()
-    {
-        throw new RuntimeException('Cant clone '.__CLASS__);
     }
 
     /**
