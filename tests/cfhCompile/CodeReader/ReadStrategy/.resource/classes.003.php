@@ -1,0 +1,1 @@
+<?php final class cfhCompile__class301 {}; abstract class cfhCompile__class302 {} ?>

@@ -1,0 +1,1 @@
+<?php interface cfhCompile__interface101{ function foo(); }class cfhCompile__class101{} class cfhCompile__class102 extends cfhCompile__class101 implements cfhCompile__interface101 {function foo(){if(TRUE){}else{}}} class cfhCompile__class103 {} ?>
