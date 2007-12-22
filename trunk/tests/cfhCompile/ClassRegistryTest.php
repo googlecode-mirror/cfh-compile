@@ -24,7 +24,6 @@ extends PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        cfhCompile_ClassRegistry::getInstance()->clear();
         $this->mockClass = $this->getMock('cfhCompile_Class_Interface');
         $this->mockClass->expects($this->any())
                         ->method('getName')
@@ -32,44 +31,15 @@ extends PHPUnit_Framework_TestCase
                         ;
     }
 
-    public function tearDown()
-    {
-        cfhCompile_ClassRegistry::getInstance()->clear();
-    }
-
-    public function testSingleton()
-    {
-        $this->assertSame(
-                          cfhCompile_ClassRegistry::getInstance(),
-                          cfhCompile_ClassRegistry::getInstance()
-                         );
-        $ref = new ReflectionClass('cfhCompile_ClassRegistry');
-        $this->assertFalse($ref->getConstructor()->isPublic());
-    }
-
-    public function testNotClonable()
-    {
-        $r = cfhCompile_ClassRegistry::getInstance();
-        try
-        {
-            clone $r;
-        }
-        catch(RuntimeException $e)
-        {
-            return;
-        }
-        $this->fail('Expecting to catch a RuntimeException.');
-    }
-
     public function testRegisterReturnsSameObject()
     {
-        $r = cfhCompile_ClassRegistry::getInstance();
+        $r = new cfhCompile_ClassRegistry();
         $this->assertSame($this->mockClass, $r->register($this->mockClass));
     }
 
     public function testRegisterSameClassMoreThanOnceOK()
     {
-        $r = cfhCompile_ClassRegistry::getInstance();
+        $r = new cfhCompile_ClassRegistry();
         $this->assertSame($this->mockClass, $r->register($this->mockClass));
         $this->assertSame($this->mockClass, $r->register($this->mockClass));
     }
@@ -81,7 +51,7 @@ extends PHPUnit_Framework_TestCase
                      ->method('getName')
                      ->will($this->returnValue('Test'))
                      ;
-        $r = cfhCompile_ClassRegistry::getInstance();
+        $r = new cfhCompile_ClassRegistry();
         $this->assertSame($this->mockClass, $r->register($this->mockClass));
         try {
             $r->register($badMockClass);
@@ -95,13 +65,13 @@ extends PHPUnit_Framework_TestCase
 
     public function testFetchReturnsNullForUnknownClassName()
     {
-        $r = cfhCompile_ClassRegistry::getInstance();
+        $r = new cfhCompile_ClassRegistry();
         $this->assertNull($r->fetch('UNKNOWN'));
     }
 
     public function testClear()
     {
-        $r = cfhCompile_ClassRegistry::getInstance();
+        $r = new cfhCompile_ClassRegistry();
         $this->assertNull($r->fetch('Test'));
         $r->register($this->mockClass);
         $this->assertSame($this->mockClass, $r->fetch('Test'));
@@ -111,7 +81,7 @@ extends PHPUnit_Framework_TestCase
 
     public function testGetIterator()
     {
-        $r = cfhCompile_ClassRegistry::getInstance();
+        $r = new cfhCompile_ClassRegistry();
         $r->register($this->mockClass);
         foreach($r as $k=>$v){
             $this->assertEquals('Test', $k);
