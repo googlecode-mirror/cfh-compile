@@ -9,6 +9,12 @@
  */
 
 /**
+ *
+ * For the iterator interface the following apply...
+ *
+ * current() returns cfhCompile_Class_Interface
+ * key() returns the name of the class
+ *
  * @category    cfh
  * @package     cfhCompile
  * @subpackage  ClassIterator
@@ -17,4 +23,5 @@
 interface cfhCompile_ClassIterator_Interface
 extends Iterator
 {
+
 }
