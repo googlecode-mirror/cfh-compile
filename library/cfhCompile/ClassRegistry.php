@@ -15,7 +15,7 @@
  * @copyright   Copyright (c) 2007 William Bailey
  */
 class cfhCompile_ClassRegistry
-implements IteratorAggregate
+implements IteratorAggregate, Countable
 {
 
     /**
@@ -79,6 +79,11 @@ implements IteratorAggregate
     public function getIterator()
     {
         return $this->registry;
+    }
+
+    public function count()
+    {
+        return $this->registry->count();
     }
 
 }
