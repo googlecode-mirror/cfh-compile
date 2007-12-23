@@ -35,6 +35,7 @@ extends PHPUnit_Framework_TestCase
     {
         $r = new cfhCompile_ClassRegistry();
         $this->assertSame($this->mockClass, $r->register($this->mockClass));
+        $this->assertEquals(1, $r->count());
     }
 
     public function testRegisterSameClassMoreThanOnceOK()
@@ -42,6 +43,7 @@ extends PHPUnit_Framework_TestCase
         $r = new cfhCompile_ClassRegistry();
         $this->assertSame($this->mockClass, $r->register($this->mockClass));
         $this->assertSame($this->mockClass, $r->register($this->mockClass));
+        $this->assertEquals(1, $r->count());
     }
 
     public function testRegisterConflectingClassError()
@@ -75,8 +77,10 @@ extends PHPUnit_Framework_TestCase
         $this->assertNull($r->fetch('Test'));
         $r->register($this->mockClass);
         $this->assertSame($this->mockClass, $r->fetch('Test'));
+        $this->assertEquals(1, $r->count());
         $r->clear();
         $this->assertNull($r->fetch('Test'));
+        $this->assertEquals(0, $r->count());
     }
 
     public function testGetIterator()
