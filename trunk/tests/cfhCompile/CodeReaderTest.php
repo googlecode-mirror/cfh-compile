@@ -69,4 +69,23 @@ extends PHPUnit_Framework_TestCase
         $this->fail('Expecting to catch cfhCompile_CodeReader_Exception.');
     }
 
+    public function testAttachDetachPlugin()
+    {
+        $c  = new cfhCompile_Class_Reflection($this);
+        $p  = $this->getMock('cfhCompile_CodeReader_Plugin_Abstract');
+        $p->expects($this->once())
+          ->method('preGetSourceCode')
+          ->will($this->returnValue($c))
+          ;
+        $p->expects($this->once())
+          ->method('postGetSourceCode')
+          ->will($this->returnValue(NULL))
+          ;
+        $cr = new cfhCompile_CodeReader();
+        $cr->attachPlugin($p);
+        $cr->getSourceCode($c);
+        $cr->detachPlugin($p);
+        $cr->getSourceCode($c);
+    }
+
 }

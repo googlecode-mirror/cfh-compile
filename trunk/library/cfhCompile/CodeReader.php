@@ -51,6 +51,22 @@ implements cfhCompile_CodeReader_ReadStrategy_Interface
     }
 
     /**
+     * @param cfhCompile_CodeReader_Plugin_Interface $plugin
+     */
+    public function attachPlugin(cfhCompile_CodeReader_Plugin_Interface $plugin)
+    {
+        $this->plugin->attach($plugin);
+    }
+
+    /**
+     * @param cfhCompile_CodeReader_Plugin_Interface $plugin
+     */
+    public function detachPlugin(cfhCompile_CodeReader_Plugin_Interface $plugin)
+    {
+        $this->plugin->detach($plugin);
+    }
+
+    /**
      * Gets the source code for the specified class.
      *
      * @param cfhCompile_Class_Interface $class
