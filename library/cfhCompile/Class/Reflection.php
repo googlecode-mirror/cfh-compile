@@ -123,7 +123,7 @@ implements cfhCompile_Class_Interface
             $deps[] = $i->getName();
         }
         $deps = array_unique($deps);
-        return $deps;
+        return new ArrayObject($deps);
     }
 
 }
