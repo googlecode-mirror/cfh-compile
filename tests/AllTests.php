@@ -15,12 +15,18 @@ require_once 'PHPUnit/Util/Filter.php';
 require_once 'PHPUnit/Framework/TestSuite.php';
 require_once 'PHPUnit/TextUI/TestRunner.php';
 
-require_once '../library/cfhCompile/Loader.php';
+if(file_exists('cfhCompile.compiled.php'))
+{
+    require_once 'cfhCompile.compiled.php';
+}
+else
+{
+    require_once '../library/cfhCompile/Loader.php';
+    cfhCompile_Loader::registerAutoload();
+}
 
 PHPUnit_Util_Filter::addDirectoryToWhitelist(realpath('../library/'));
 PHPUnit_Util_Filter::addFileToFilter(__FILE__);
-
-cfhCompile_Loader::registerAutoload();
 
 /**
  * Main Unit Test Class.

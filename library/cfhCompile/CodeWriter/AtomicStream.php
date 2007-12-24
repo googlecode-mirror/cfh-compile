@@ -50,6 +50,7 @@ implements cfhCompile_CodeWriter_Interface
         {
             throw new cfhCompile_CodeWriter_Exception('Unable to open url '.$this->tempUrl);
         }
+        fwrite($this->fp, '<?php ');
     }
 
     /**
@@ -125,6 +126,16 @@ implements cfhCompile_CodeWriter_Interface
                          $sourceCode,
                          cfhCompile_ClassRegistry $classRegistry
                          )
+    {
+        $this->writeSource($sourceCode);
+    }
+
+    /**
+     * Writes source code.
+     *
+     * @param String $sourceCode
+     */
+    public function writeSource($sourceCode)
     {
         if(!is_resource($this->fp))
         {
