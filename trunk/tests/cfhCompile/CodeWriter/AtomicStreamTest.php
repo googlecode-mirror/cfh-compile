@@ -32,7 +32,7 @@ extends PHPUnit_Framework_TestCase
         $w->write(new cfhCompile_Class_Reflection($this), '/* after */', $cr);
         $w->commit($cr);
         $this->assertTrue(file_exists($url));
-        $this->assertEquals('/* after */', file_get_contents($url));
+        $this->assertEquals('<?php /* after */', file_get_contents($url));
         unlink($url);
     }
 
@@ -46,7 +46,7 @@ extends PHPUnit_Framework_TestCase
         $w->write(new cfhCompile_Class_Reflection($this), $code, $cr);
         $w->commit($cr);
         $this->assertTrue(file_exists($url));
-        $this->assertEquals($code, file_get_contents($url));
+        $this->assertEquals('<?php '.$code, file_get_contents($url));
         unlink($url);
     }
 

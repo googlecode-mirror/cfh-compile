@@ -47,4 +47,11 @@ interface cfhCompile_CodeWriter_Interface
                          cfhCompile_ClassRegistry $classRegistry
                          );
 
+    /**
+     * Writes source code.
+     *
+     * @param String $sourceCode
+     */
+    public function writeSource($sourceCode);
+
 }
