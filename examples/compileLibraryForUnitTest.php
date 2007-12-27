@@ -21,6 +21,7 @@ cfhCompile_Loader::registerAutoload();
 
 $classIterator = new cfhCompile_ClassIterator_FileInfo();
 $classIterator->attach(new RecursiveDirectoryIterator($base.'../library/cfhCompile'));
+$classIterator->attachFilter(new cfhCompile_ClassIterator_FileInfo_Filter_FileExtension('.php'));
 
 $codeReader  = new cfhCompile_CodeReader();
 $codeReader->setReadStrategy(new cfhCompile_CodeReader_ReadStrategy_Tokenizer());

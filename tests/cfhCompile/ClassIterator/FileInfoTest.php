@@ -78,6 +78,30 @@ extends PHPUnit_Framework_TestCase
         $this->assertNull($i->current());
     }
 
+    public function testFilterAccept()
+    {
+        $file = realpath(dirname(__FILE__).'/.resource/classes.001.php');
+        $i = new cfhCompile_ClassIterator_FileInfo();
+        $i->attach(new SplFileInfo($file)); // duplicate files should only be
+        $i->attachFilter(new cfhCompile_ClassIterator_FileInfo_Filter_FileExtension('.php'));
+        $i->rewind();
+        $this->assertTrue($i->valid());
+    }
+
+    public function testFilterDeny()
+    {
+        $file = realpath(dirname(__FILE__).'/.resource/classes.001.php');
+        $f = new cfhCompile_ClassIterator_FileInfo_Filter_FileExtension('.txt');
+        $i = new cfhCompile_ClassIterator_FileInfo();
+        $i->attach(new SplFileInfo($file)); // duplicate files should only be
+        $i->attachFilter($f);
+        $i->rewind();
+        $this->assertFalse($i->valid());
+        $i->detachFilter($f);
+        $i->rewind();
+        $this->assertTrue($i->valid());
+    }
+
     public function testRecurseDirectory()
     {
         $this->markTestIncomplete('Test Not implemented.');
