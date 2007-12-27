@@ -36,4 +36,5 @@ $c = new cfhCompile_Compiler();
 $c->setClassIterator($classIterator);
 $c->setCodeReader($codeReader);
 $c->setCodeWriter($codeWriter);
+$c->attachObserver(new cfhCompile_Compiler_Observer_SimpleLogger(fopen('php://output', 'r')));
 $c->compile();
