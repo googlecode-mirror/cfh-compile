@@ -120,6 +120,9 @@ class cfhCompile_Compiler
             {
                 if(!$this->classRegistry->fetch($parent))
                 {
+                    $class = new cfhCompile_Class_Manual($parent);
+                    $this->classRegistry->register($class);
+                    $this->notify(cfhCompile_Compiler_Event::EVENT_NOTFOUND, $class);
                     $this->classesWritten[$parent] = TRUE;
                     unset($this->classChildren[$parent]);
                     foreach ($children as $child)

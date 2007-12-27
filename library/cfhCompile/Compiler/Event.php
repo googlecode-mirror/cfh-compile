@@ -17,12 +17,13 @@
 class cfhCompile_Compiler_Event
 {
 
-    const EVENT_BEGIN    = 1;
-    const EVENT_CLASS    = 2;
-    const EVENT_WRITE    = 3;
-    const EVENT_SKIP     = 4;
-    const EVENT_COMMIT   = 5;
-    const EVENT_ROLLBACK = 6;
+    const EVENT_BEGIN       = 1;
+    const EVENT_CLASS       = 2;
+    const EVENT_WRITE       = 3;
+    const EVENT_SKIP        = 4;
+    const EVENT_COMMIT      = 5;
+    const EVENT_ROLLBACK    = 6;
+    const EVENT_NOTFOUND    = 7;
 
     static protected $counter = 0;
 
