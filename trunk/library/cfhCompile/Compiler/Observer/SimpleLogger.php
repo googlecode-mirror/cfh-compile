@@ -52,6 +52,9 @@ implements cfhCompile_Compiler_Observer_Interface
             case cfhCompile_Compiler_Event::EVENT_SKIP:
                 $msg .= 'SKIP ';
                 break;
+            case cfhCompile_Compiler_Event::EVENT_NOTFOUND:
+                $msg .= 'NOTFOUND ';
+                break;
             case cfhCompile_Compiler_Event::EVENT_WRITE:
                 $msg .= 'WRITE ';
                 break;

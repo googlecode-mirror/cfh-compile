@@ -149,4 +149,24 @@ extends PHPUnit_Framework_TestCase
         $this->assertEquals('WRITE '.get_class($this).PHP_EOL, ob_get_clean());
     }
 
+    public function testNotifyNotFound()
+    {
+        $event = new cfhCompile_Compiler_Event(
+                                              cfhCompile_Compiler_Event::EVENT_NOTFOUND,
+                                              new cfhCompile_Compiler(),
+                                              new cfhCompile_ClassIterator_Declared(),
+                                              new cfhCompile_CodeReader(),
+                                              new cfhCompile_CodeWriter(),
+                                              new cfhCompile_ClassRegistry(),
+                                              new cfhCompile_Class_Reflection($this)
+                                              );
+        ob_start();
+        $fp = fopen('php://output', 'r');
+        $o  = new cfhCompile_Compiler_Observer_SimpleLogger($fp);
+        $o->notify($event);
+        fclose($fp);
+        $this->assertEquals('NOTFOUND '.get_class($this).PHP_EOL, ob_get_clean());
+    }
+
+
 }
