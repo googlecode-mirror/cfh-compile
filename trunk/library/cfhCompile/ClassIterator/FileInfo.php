@@ -38,7 +38,15 @@ implements cfhCompile_ClassIterator_Interface
      */
     protected $inspectedFiles = array();
 
+    /**
+     * @var array
+     */
     protected $currentFileClasses = array();
+
+    /**
+     * @var cfhCompile_ClassIterator_FileInfo_FilterBroker
+     */
+    protected $filter;
 
     public function __construct()
     {
@@ -46,6 +54,7 @@ implements cfhCompile_ClassIterator_Interface
         $this->fileIterator        = new AppendIterator();
         $this->fileIterator->append($this->nonTraversableItems);
         $this->rewind();
+        $this->filter = new cfhCompile_ClassIterator_FileInfo_FilterBroker();
     }
 
     public function current()
@@ -82,8 +91,8 @@ implements cfhCompile_ClassIterator_Interface
         while($file
              && (
                 !$file->isFile()
-                || substr($file->getBaseName(), -9) == '.svn-base'  // Should really implement a black list/filter functionality.
                 || isset($this->inspectedFiles[$file->getRealPath()])
+                || !$this->filter->accept($file)
                 )
              );
         if($file === NULL)
@@ -242,6 +251,16 @@ implements cfhCompile_ClassIterator_Interface
         {
             $this->nonTraversableItems->attach($fileInfo);
         }
+    }
+
+    public function attachFilter(cfhCompile_ClassIterator_FileInfo_Filter_Interface $filter)
+    {
+        $this->filter->attach($filter);
+    }
+
+    public function detachFilter(cfhCompile_ClassIterator_FileInfo_Filter_Interface $filter)
+    {
+        $this->filter->detach($filter);
     }
 
 }
