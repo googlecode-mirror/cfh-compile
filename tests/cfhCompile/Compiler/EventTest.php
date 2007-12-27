@@ -32,7 +32,7 @@ extends PHPUnit_Framework_TestCase
         $compiler      = $this->getMock('cfhCompile_Compiler');
         $classIterator = $this->getMock('cfhCompile_ClassIterator_Interface');
         $reader        = $this->getMock('cfhCompile_CodeReader_ReadStrategy_Interface');
-        $writer        = $this->getMock('cfhCompile_CodeWriter_Interface');
+        $writer        = $this->getMock('cfhCompile_CodeWriter_WriteStrategy_Interface');
         $registry      = $this->getMock('cfhCompile_ClassRegistry');
         $class         = $this->getMock('cfhCompile_Class_Interface');
         $this->event = new cfhCompile_Compiler_Event(
@@ -52,7 +52,7 @@ extends PHPUnit_Framework_TestCase
         $compiler      = $this->getMock('cfhCompile_Compiler');
         $classIterator = $this->getMock('cfhCompile_ClassIterator_Interface');
         $reader        = $this->getMock('cfhCompile_CodeReader_ReadStrategy_Interface');
-        $writer        = $this->getMock('cfhCompile_CodeWriter_Interface');
+        $writer        = $this->getMock('cfhCompile_CodeWriter_WriteStrategy_Interface');
         $registry      = $this->getMock('cfhCompile_ClassRegistry');
         $class         = $this->getMock('cfhCompile_Class_Interface');
         $event         = new cfhCompile_Compiler_Event(

@@ -26,7 +26,7 @@ class cfhCompile_Compiler
      */
     protected $codeReader;
     /**
-     * @var cfhCompile_CodeWriter_Interface
+     * @var cfhCompile_CodeWriter_WriteStrategy_Interface
      */
     protected $codeWriter;
     /**
@@ -38,6 +38,16 @@ class cfhCompile_Compiler
      * @var splObjectStorage
      */
     protected $observers;
+
+    /**
+     * @var array
+     */
+    protected $classesWritten = array();
+    /**
+     * @var array
+     */
+    protected $classChildren = array();
+
 
     public function __construct()
     {
@@ -71,7 +81,7 @@ class cfhCompile_Compiler
         $this->codeReader = $r;
     }
 
-    public function setCodeWriter(cfhCompile_CodeWriter_Interface $w)
+    public function setCodeWriter(cfhCompile_CodeWriter_WriteStrategy_Interface $w)
     {
         $this->codeWriter = $w;
     }
@@ -88,12 +98,14 @@ class cfhCompile_Compiler
         {
             throw new cfhCompile_Compiler_Exception('Invalid or undefined code reader.');
         }
-        if(!$this->codeWriter instanceof cfhCompile_CodeWriter_Interface)
+        if(!$this->codeWriter instanceof cfhCompile_CodeWriter_WriteStrategy_Interface)
         {
             throw new cfhCompile_Compiler_Exception('Invalid or undefined code writer.');
         }
         try
         {
+            $this->classChildren  = array();
+            $this->classesWritten = array();
             $this->classRegistry->clear();
             $this->notify(cfhCompile_Compiler_Event::EVENT_BEGIN);
             $this->codeWriter->begin();
@@ -101,22 +113,39 @@ class cfhCompile_Compiler
             {
                 $this->classRegistry->register($class);
                 $this->notify(cfhCompile_Compiler_Event::EVENT_CLASS, $class);
-                $source = $this->codeReader->getSourceCode($class);
-                if($source !== NULL)
+                $this->checkDependancysAndWrite($class);
+            }
+            // remove dependancys for non existant classes...
+            foreach ($this->classChildren as $parent => $children)
+            {
+                if(!$this->classRegistry->fetch($parent))
                 {
-                    $this->notify(cfhCompile_Compiler_Event::EVENT_WRITE, $class);
-                    $this->codeWriter->write(
-                                            $class,
-                                            $source,
-                                            $this->classRegistry
-                                            );
-                    $source = NULL;
-                }
-                else
-                {
-                    $this->notify(cfhCompile_Compiler_Event::EVENT_SKIP, $class);
+                    $this->classesWritten[$parent] = TRUE;
+                    unset($this->classChildren[$parent]);
+                    foreach ($children as $child)
+                    {
+                        $this->checkDependancysAndWrite($this->classRegistry->fetch($child));
+                    }
                 }
             }
+            // loop through dependancys and try to write classes that
+            // have all the dependancys written.
+            do
+            {
+                $total = count($this->classesWritten);
+                foreach ($this->classChildren as $parent => $children)
+                {
+                    $this->checkDependancysAndWrite($this->classRegistry->fetch($parent));
+                }
+            }
+            while($total != count($this->classesWritten));
+            // Loop through all classes and make sure they are written.
+            foreach ($this->classRegistry as $class)
+            {
+                $this->write($class);
+            }
+            $this->classChildren  = array();
+            $this->classesWritten = array();
             $this->notify(cfhCompile_Compiler_Event::EVENT_COMMIT);
             $this->codeWriter->commit($this->classRegistry);
             $this->classRegistry->clear();
@@ -147,6 +176,58 @@ class cfhCompile_Compiler
         foreach($this->observers as $o)
         {
             $o->notify($event);
+        }
+    }
+
+    protected function checkDependancysAndWrite(cfhCompile_Class_Interface $class)
+    {
+        $canWrite = TRUE;
+        foreach ($class->getDependancys() as $depend)
+        {
+            if(!isset($this->classesWritten[$depend]))
+            {
+                $canWrite = FALSE;
+                if(!isset($this->classChildren[$depend]))
+                {
+                    $this->classChildren[$depend] = array();
+                }
+                $this->classChildren[$depend][] = $class->getName();
+            }
+        }
+        if($canWrite)
+        {
+            $this->write($class);
+            if(isset($this->classChildren[$class->getName()]))
+            {
+                foreach ($this->classChildren[$class->getName()] as $child)
+                {
+                    $this->checkDependancysAndWrite($this->classRegistry->fetch($child));
+                }
+            }
+            unset($this->classChildren[$class->getName()]);
+        }
+    }
+
+    protected function write(cfhCompile_Class_Interface $class)
+    {
+        if(isset($this->classesWritten[$class->getName()]))
+        {
+            return;
+        }
+        $this->classesWritten[$class->getName()] = TRUE;
+        $source = $this->codeReader->getSourceCode($class);
+        if($source !== NULL)
+        {
+            $this->notify(cfhCompile_Compiler_Event::EVENT_WRITE, $class);
+            $this->codeWriter->write(
+                                    $class,
+                                    $source,
+                                    $this->classRegistry
+                                    );
+        }
+        else
+        {
+            $this->notify(cfhCompile_Compiler_Event::EVENT_SKIP, $class);
         }
     }
 

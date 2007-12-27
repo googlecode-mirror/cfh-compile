@@ -47,7 +47,7 @@ class cfhCompile_Compiler_Event
      */
     protected $codeReader;
     /**
-     * @var cfhCompile_CodeWriter_Interface
+     * @var cfhCompile_CodeWriter_WriteStrategy_Interface
      */
     protected $codeWriter;
     /**
@@ -65,7 +65,7 @@ class cfhCompile_Compiler_Event
                            cfhCompile_Compiler $compiler,
                            cfhCompile_ClassIterator_Interface $classIterator,
                            cfhCompile_CodeReader_ReadStrategy_Interface $reader,
-                           cfhCompile_CodeWriter_Interface $writer,
+                           cfhCompile_CodeWriter_WriteStrategy_Interface $writer,
                            cfhCompile_ClassRegistry $classRegistry,
                            cfhCompile_Class_Interface $class = NULL
                            )
@@ -131,7 +131,7 @@ class cfhCompile_Compiler_Event
     }
 
     /**
-     * @return cfhCompile_CodeWriter_Interface
+     * @return cfhCompile_CodeWriter_WriteStrategy_Interface
      */
     public function getCodeWriter()
     {

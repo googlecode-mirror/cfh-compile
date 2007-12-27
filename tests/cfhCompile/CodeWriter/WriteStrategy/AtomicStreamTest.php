@@ -11,13 +11,14 @@
 /**
  * @group       cfhCompile
  * @group       cfhCompile_CodeWriter
- * @group       cfhCompile_CodeWriter_AtomicStream
+ * @group       cfhCompile_CodeWriter_WriteStrategy
+ * @group       cfhCompile_CodeWriter_WriteStrategy_AtomicStream
  * @category    cfh
  * @package     cfhCompile
  * @subpackage  UnitTests
  * @copyright   Copyright (c) 2007 William Bailey
  */
-class cfhCompile_CodeWriter_AtomicStreamTest
+class cfhCompile_CodeWriter_WriteStrategy_AtomicStreamTest
 extends PHPUnit_Framework_TestCase
 {
 
@@ -27,7 +28,7 @@ extends PHPUnit_Framework_TestCase
         file_put_contents($url, '/* before */');
         $this->assertEquals('/* before */', file_get_contents($url));
         $cr = new cfhCompile_ClassRegistry();
-        $w  = new cfhCompile_CodeWriter_AtomicStream($url);
+        $w  = new cfhCompile_CodeWriter_WriteStrategy_AtomicStream($url);
         $w->begin();
         $w->write(new cfhCompile_Class_Reflection($this), '/* after */', $cr);
         $w->commit($cr);
@@ -41,7 +42,7 @@ extends PHPUnit_Framework_TestCase
         $code = file_get_contents(__FILE__);
         $url  = tempnam(sys_get_temp_dir(), 'cfhCompile');
         $cr   = new cfhCompile_ClassRegistry();
-        $w    = new cfhCompile_CodeWriter_AtomicStream($url);
+        $w    = new cfhCompile_CodeWriter_WriteStrategy_AtomicStream($url);
         $w->begin();
         $w->write(new cfhCompile_Class_Reflection($this), $code, $cr);
         $w->commit($cr);
@@ -56,7 +57,7 @@ extends PHPUnit_Framework_TestCase
         file_put_contents($url, '/* before */');
         $this->assertEquals('/* before */', file_get_contents($url));
         $cr = new cfhCompile_ClassRegistry();
-        $w  = new cfhCompile_CodeWriter_AtomicStream($url);
+        $w  = new cfhCompile_CodeWriter_WriteStrategy_AtomicStream($url);
         $w->begin();
         $w->write(new cfhCompile_Class_Reflection($this), '/* after */', $cr);
         $w->rollback($cr);
@@ -67,7 +68,7 @@ extends PHPUnit_Framework_TestCase
 
     public function testInvalidUrlThrowsException()
     {
-        $w = new cfhCompile_CodeWriter_AtomicStream('invalid://url');
+        $w = new cfhCompile_CodeWriter_WriteStrategy_AtomicStream('invalid://url');
         try
         {
             $w->begin();
@@ -82,7 +83,7 @@ extends PHPUnit_Framework_TestCase
     public function testWriteWithoutBeginThrowsException()
     {
         $url = tempnam(sys_get_temp_dir(), 'cfhCompile');
-        $w   = new cfhCompile_CodeWriter_AtomicStream($url);
+        $w   = new cfhCompile_CodeWriter_WriteStrategy_AtomicStream($url);
         $cr  = new cfhCompile_ClassRegistry();
         try
         {
@@ -100,7 +101,7 @@ extends PHPUnit_Framework_TestCase
     public function testWriteAfterCommitThrowsException()
     {
         $url = tempnam(sys_get_temp_dir(), 'cfhCompile');
-        $w   = new cfhCompile_CodeWriter_AtomicStream($url);
+        $w   = new cfhCompile_CodeWriter_WriteStrategy_AtomicStream($url);
         $cr  = new cfhCompile_ClassRegistry();
         $w->begin();
         $w->commit($cr);
@@ -120,7 +121,7 @@ extends PHPUnit_Framework_TestCase
     public function testWriteAfterRollbackThrowsException()
     {
         $url = tempnam(sys_get_temp_dir(), 'cfhCompile');
-        $w   = new cfhCompile_CodeWriter_AtomicStream($url);
+        $w   = new cfhCompile_CodeWriter_WriteStrategy_AtomicStream($url);
         $cr  = new cfhCompile_ClassRegistry();
         $w->begin();
         $w->rollback($cr);
@@ -140,7 +141,7 @@ extends PHPUnit_Framework_TestCase
     public function testRollbackWithoutBeginThrowsException()
     {
         $url = tempnam(sys_get_temp_dir(), 'cfhCompile');
-        $w   = new cfhCompile_CodeWriter_AtomicStream($url);
+        $w   = new cfhCompile_CodeWriter_WriteStrategy_AtomicStream($url);
         $cr  = new cfhCompile_ClassRegistry();
         try
         {
@@ -158,7 +159,7 @@ extends PHPUnit_Framework_TestCase
     public function testCommitWithoutBeginThrowsException()
     {
         $url = tempnam(sys_get_temp_dir(), 'cfhCompile');
-        $w   = new cfhCompile_CodeWriter_AtomicStream($url);
+        $w   = new cfhCompile_CodeWriter_WriteStrategy_AtomicStream($url);
         $cr  = new cfhCompile_ClassRegistry();
         try
         {

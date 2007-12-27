@@ -80,7 +80,7 @@ extends PHPUnit_Framework_TestCase
 
     public function testRecurseDirectory()
     {
-        $this->markTestIncomplete('Not implemented.');
+        $this->markTestIncomplete('Test Not implemented.');
     }
 
 }

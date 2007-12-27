@@ -82,6 +82,7 @@ implements cfhCompile_ClassIterator_Interface
         while($file
              && (
                 !$file->isFile()
+                || substr($file->getBaseName(), -9) == '.svn-base'  // Should really implement a black list/filter functionality.
                 || isset($this->inspectedFiles[$file->getRealPath()])
                 )
              );
@@ -228,7 +229,14 @@ implements cfhCompile_ClassIterator_Interface
     {
         if($fileInfo instanceof Iterator)
         {
-            $this->fileIterator->append($fileInfo);
+            if($fileInfo instanceof RecursiveDirectoryIterator)
+            {
+                $this->fileIterator->append(new RecursiveIteratorIterator($fileInfo));
+            }
+            else
+            {
+                $this->fileIterator->append($fileInfo);
+            }
         }
         else
         {
