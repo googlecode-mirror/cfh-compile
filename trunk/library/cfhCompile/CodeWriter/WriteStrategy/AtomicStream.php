@@ -18,8 +18,8 @@
  * @subpackage  CodeWriter
  * @copyright   Copyright (c) 2007 William Bailey
  */
-class cfhCompile_CodeWriter_AtomicStream
-implements cfhCompile_CodeWriter_Interface
+class cfhCompile_CodeWriter_WriteStrategy_AtomicStream
+implements cfhCompile_CodeWriter_WriteStrategy_Interface
 {
 
     const EXT_TEMP    = '.temp';
@@ -64,11 +64,17 @@ implements cfhCompile_CodeWriter_Interface
         {
             throw new cfhCompile_CodeWriter_Exception('Cant rollback() without begin()');
         }
-        fclose($this->fp);
-        $this->fp = NULL;
-        if(!@unlink($this->tempUrl))
+        if(is_resource($this->fp))
         {
-            throw new cfhCompile_CodeWriter_Exception('Unable to unlink '.$this->tempUrl);
+            fclose($this->fp);
+        }
+        $this->fp = NULL;
+        if(file_exists($this->tempUrl))
+        {
+            if(!@unlink($this->tempUrl))
+            {
+                throw new cfhCompile_CodeWriter_Exception('Unable to unlink '.$this->tempUrl);
+            }
         }
         $this->tempUrl = NULL;
     }

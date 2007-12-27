@@ -14,7 +14,7 @@
  * @subpackage  CodeWriter
  * @copyright   Copyright (c) 2007 William Bailey
  */
-interface cfhCompile_CodeWriter_Interface
+interface cfhCompile_CodeWriter_WriteStrategy_Interface
 {
 
     /**

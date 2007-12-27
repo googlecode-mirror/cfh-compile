@@ -35,6 +35,10 @@ extends PHPUnit_Framework_TestCase
         $callback = array('cfhCompile_Loader', 'autoload');
         // Check that we are not registered.
         $autoLoaders = spl_autoload_functions();
+        if(!is_array($autoLoaders))
+        {
+            $autoLoaders = array();
+        }
         $this->assertFalse(in_array($callback, $autoLoaders, TRUE));
         // Register
         cfhCompile_Loader::registerAutoload();

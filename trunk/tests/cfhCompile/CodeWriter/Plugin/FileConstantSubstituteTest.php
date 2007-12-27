@@ -11,22 +11,23 @@
 /**
  * @group       cfhCompile
  * @group       cfhCompile_CodeReader
- * @group       cfhCompile_CodeReader_Plugin
- * @group       cfhCompile_CodeReader_Plugin_FileConstantSubstitute
+ * @group       cfhCompile_CodeWriter_Plugin
+ * @group       cfhCompile_CodeWriter_Plugin_FileConstantSubstitute
  * @category    cfh
  * @package     cfhCompile
  * @subpackage  UnitTests
  * @copyright   Copyright (c) 2007 William Bailey
  */
-class cfhCompile_CodeReader_Plugin_FileConstantSubstituteTest
+class cfhCompile_CodeWriter_Plugin_FileConstantSubstituteTest
 extends PHPUnit_Framework_TestCase
 {
 
-    public function testPostGetSourceCode()
+    public function testPreWrite()
     {
-        $p      = new cfhCompile_CodeReader_Plugin_FileConstantSubstitute();
+        $p      = new cfhCompile_CodeWriter_Plugin_FileConstantSubstitute();
         $c      = new cfhCompile_Class_Manual('foo', '/path/to/foo.php', 1, 7);
-        $cr     = new cfhCompile_CodeReader();
+        $cw     = new cfhCompile_CodeWriter();
+        $cr     = new cfhCompile_ClassRegistry();
         $code   = array();
         $code[] = 'class foo {';
         $code[] = '';
@@ -45,15 +46,16 @@ extends PHPUnit_Framework_TestCase
         $expectCode[] = '';
         $expectCode[] = '}';
         $expectCode   = trim(implode("\n", $expectCode));
-        $this->assertEquals($expectCode, $p->postGetSourceCode($cr, $c, $code));
+        $this->assertEquals($expectCode, $p->preWrite($cw, $c, $code, $cr));
     }
 
-    public function testPostGetSourceCodeNull()
+    public function testPreWriteNull()
     {
-        $p      = new cfhCompile_CodeReader_Plugin_FileConstantSubstitute();
-        $c      = new cfhCompile_Class_Manual('foo', '/path/to/foo.php', 1, 7);
-        $cr     = new cfhCompile_CodeReader();
-        $this->assertNull($p->postGetSourceCode($cr, $c, NULL));
+        $p  = new cfhCompile_CodeWriter_Plugin_FileConstantSubstitute();
+        $c  = new cfhCompile_Class_Manual('foo', '/path/to/foo.php', 1, 7);
+        $cw = new cfhCompile_CodeWriter();
+        $cr = new cfhCompile_ClassRegistry();
+        $this->assertNull($p->preWrite($cw, $c, NULL, $cr));
     }
 
 }

@@ -51,14 +51,14 @@ extends PHPUnit_Framework_TestCase
 
     public function testClassRegistryClearGetCalledTwiceInCompile()
     {
-        $r = $this->getMock('cfhCompile_ClassRegistry');
+        $r = $this->getMock('cfhCompile_ClassRegistry', array('clear'));
         $r->expects($this->exactly(2))
           ->method('clear')
           ;
         $c = new cfhCompile_Compiler();
         $c->setClassRegistry($r);
         $c->setCodeReader(new cfhCompile_CodeReader());
-        $c->setCodeWriter($this->getMock('cfhCompile_CodeWriter_Interface'));
+        $c->setCodeWriter($this->getMock('cfhCompile_CodeWriter_WriteStrategy_Interface'));
         $c->compile();
     }
 
@@ -68,7 +68,7 @@ extends PHPUnit_Framework_TestCase
         $r->expects($this->exactly(2))
           ->method('clear')
           ;
-        $w = $this->getMock('cfhCompile_CodeWriter_Interface');
+        $w = $this->getMock('cfhCompile_CodeWriter_WriteStrategy_Interface');
         $w->expects($this->once())
           ->method('begin')
           ->will($this->throwException(new cfhCompile_CodeWriter_Exception))
@@ -91,7 +91,7 @@ extends PHPUnit_Framework_TestCase
     {
         $r = new cfhCompile_CodeReader();
         $r->setReadStrategy(new cfhCompile_CodeReader_ReadStrategy_Null());
-        $w = $this->getMock('cfhCompile_CodeWriter_Interface');
+        $w = $this->getMock('cfhCompile_CodeWriter_WriteStrategy_Interface');
         $w->expects($this->once())
           ->method('begin')
           ;
@@ -115,7 +115,7 @@ extends PHPUnit_Framework_TestCase
         $class = new cfhCompile_Class_Reflection($this);
         $cr = new cfhCompile_ClassRegistry();
 
-        $w = $this->getMock('cfhCompile_CodeWriter_Interface');
+        $w = $this->getMock('cfhCompile_CodeWriter_WriteStrategy_Interface');
         $w->expects($this->once())
           ->method('begin')
           ;
@@ -162,7 +162,7 @@ extends PHPUnit_Framework_TestCase
 
         $c = new cfhCompile_Compiler();
         $c->setCodeReader(new cfhCompile_CodeReader());
-        $c->setCodeWriter($this->getMock('cfhCompile_CodeWriter_Interface'));
+        $c->setCodeWriter($this->getMock('cfhCompile_CodeWriter_WriteStrategy_Interface'));
         $c->setClassIterator($i);
         $c->attachObserver($o);
         $c->attachObserver($o);
@@ -179,7 +179,7 @@ extends PHPUnit_Framework_TestCase
         $i->attach(new cfhCompile_Class_Reflection($this));
         $c = new cfhCompile_Compiler();
         $c->setCodeReader(new cfhCompile_CodeReader());
-        $c->setCodeWriter($this->getMock('cfhCompile_CodeWriter_Interface'));
+        $c->setCodeWriter($this->getMock('cfhCompile_CodeWriter_WriteStrategy_Interface'));
         $c->setClassIterator($i);
         try {
             $c->compile();

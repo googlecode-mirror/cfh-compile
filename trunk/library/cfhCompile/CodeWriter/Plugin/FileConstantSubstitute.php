@@ -2,7 +2,7 @@
 /**
  * @category    cfh
  * @package     cfhCompile
- * @subpackage  CodeReader
+ * @subpackage  CodeWriter
  * @copyright   Copyright (c) 2007 William Bailey
  * @license     http://www.gnu.org/licenses/lgpl.html     Lesser GPL
  * @version     $Id$
@@ -13,27 +13,26 @@
  *
  * @category    cfh
  * @package     cfhCompile
- * @subpackage  CodeReader
+ * @subpackage  CodeWriter
  * @copyright   Copyright (c) 2007 William Bailey
  */
-class cfhCompile_CodeReader_Plugin_FileConstantSubstitute
-extends cfhCompile_CodeReader_Plugin_Abstract
+class cfhCompile_CodeWriter_Plugin_FileConstantSubstitute
+extends cfhCompile_CodeWriter_Plugin_Abstract
 {
 
     /**
-     * Hook that gets called post get source code.
-     *
-     * @param cfhCompile_CodeReader $codeReader
+     * @param cfhCompile_CodeWriter $codeWriter
      * @param cfhCompile_Class_Interface $class
-     * @param string $sourceCode;
-     * @return string The source code to return.
-     * @throws cfhCompile_CodeReader_Plugin_Exception
+     * @param unknown_type $sourceCode
+     * @param cfhCompile_ClassRegistry $classRegistry
+     * @return String
      */
-    public function postGetSourceCode(
-                                      cfhCompile_CodeReader $codeReader,
-                                      cfhCompile_Class_Interface $class,
-                                      $sourceCode
-                                     )
+    public function preWrite(
+                            cfhCompile_CodeWriter $codeWriter,
+                            cfhCompile_Class_Interface $class,
+                            $sourceCode,
+                            cfhCompile_ClassRegistry $classRegistry
+                            )
     {
         if(is_null($sourceCode))
         {

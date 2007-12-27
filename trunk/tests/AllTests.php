@@ -18,15 +18,16 @@ require_once 'PHPUnit/TextUI/TestRunner.php';
 if(file_exists('cfhCompile.compiled.php'))
 {
     require_once 'cfhCompile.compiled.php';
+    PHPUnit_Util_Filter::addFileToWhitelist('cfhCompile.compiled.php');
 }
 else
 {
     require_once '../library/cfhCompile/Loader.php';
     cfhCompile_Loader::registerAutoload();
+    PHPUnit_Util_Filter::addDirectoryToWhitelist(realpath('../library/'));
+    PHPUnit_Util_Filter::addFileToFilter(__FILE__);
 }
 
-PHPUnit_Util_Filter::addDirectoryToWhitelist(realpath('../library/'));
-PHPUnit_Util_Filter::addFileToFilter(__FILE__);
 
 /**
  * Main Unit Test Class.
@@ -58,7 +59,7 @@ class AllTests
                                    '_',
                                    substr($dir, strlen($base) + 1)
                                   );
-            $suite = new PHPUnit_Framework_TestSuite($section);
+            $suite = new PHPUnit_Framework_TestSuite($section.'_AllTests');
         }
         else
         {
