@@ -39,8 +39,20 @@ implements cfhCompile_CodeReader_ReadStrategy_Interface
                       'Unable to read contents of '.$class->getFileName()
                       );
         }
-        $offset = $class->getStartLine() - 1;
-        $length = $class->getEndLine() - $offset;
+        $offset = 0;
+        $length = PHP_INT_MAX;
+        if($class->getStartLine() > 0)
+        {
+            $offset = $class->getStartLine() - 1;
+        }
+        if($class->getEndLine() > 0)
+        {
+            $length = $class->getEndLine() - $offset;
+        }
+        if($length < 1)
+        {
+            $length = PHP_INT_MAX;
+        }
         $code   = trim(implode(PHP_EOL, array_slice($code, $offset, $length)));
         if(!preg_match('/^(<\?(php){0,1}\s)/', $code))
         {

@@ -43,25 +43,29 @@ implements cfhCompile_Class_Interface
         if(
           $this->fileName == ''
           || is_null($this->fileName)
-          || is_null($this->startLine)
-          || is_null($this->endLine)
           )
         {
           $this->fileName  = NULL;
           $this->startLine = NULL;
           $this->endLine   = NULL;
         }
+        if(is_null($this->startLine))
+        {
+            $this->endLine = NULL;
+        }
+        elseif(is_null($this->endLine))
+        {
+            $this->startLine = NULL;
+        }
         if(!is_null($this->startLine))
         {
             if($this->startLine < 0 || $this->endLine < 0)
             {
-                $this->fileName  = NULL;
                 $this->startLine = NULL;
                 $this->endLine   = NULL;
             }
             elseif($this->endLine < $this->startLine)
             {
-                $this->fileName  = NULL;
                 $this->startLine = NULL;
                 $this->endLine   = NULL;
             }
