@@ -117,4 +117,11 @@ extends PHPUnit_Framework_TestCase
         $this->assertEquals('abstract class cfhCompile__class302 {}',$r->getSourceCode($c));
     }
 
+    public function testGetSourceCodeResourceClass301WithNullLineNumbers()
+    {
+        $c = new cfhCompile_Class_Manual('cfhCompile__class301', realpath(dirname(__FILE__).'/.resource/classes.003.php'));
+        $r = new cfhCompile_CodeReader_ReadStrategy_Tokenizer();
+        $this->assertEquals('final class cfhCompile__class301 {}',$r->getSourceCode($c));
+    }
+
 }

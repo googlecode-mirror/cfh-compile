@@ -54,7 +54,7 @@ extends PHPUnit_Framework_TestCase
         $this->assertNull($class->getEndLine());
     }
 
-    public function testConstructNullStartLineNullsFileNameAndEndLine()
+    public function testConstructNullStartLineKeepsFileNameNullsEndLine()
     {
         $class = new cfhCompile_Class_Manual(
                                             'name',
@@ -63,12 +63,12 @@ extends PHPUnit_Framework_TestCase
                                             20
                                             );
         $this->assertEquals('name', $class->getName());
-        $this->assertNull($class->getFileName());
+        $this->assertEquals('fileName', $class->getFileName());
         $this->assertNull($class->getStartLine());
         $this->assertNull($class->getEndLine());
     }
 
-    public function testConstructNullEndLineNullsFileNameAndStartLine()
+    public function testConstructNullEndLineKeepsFileNameNullsStartLine()
     {
         $class = new cfhCompile_Class_Manual(
                                             'name',
@@ -77,12 +77,12 @@ extends PHPUnit_Framework_TestCase
                                             NULL
                                             );
         $this->assertEquals('name', $class->getName());
-        $this->assertNull($class->getFileName());
+        $this->assertEquals('fileName', $class->getFileName());
         $this->assertNull($class->getStartLine());
         $this->assertNull($class->getEndLine());
     }
 
-    public function testConstructEndLineGreaterThanStartLineNullsValues()
+    public function testConstructEndLineGreaterThanStartLineNullsLineValues()
     {
         $class = new cfhCompile_Class_Manual(
                                             'name',
@@ -91,12 +91,12 @@ extends PHPUnit_Framework_TestCase
                                             10
                                             );
         $this->assertEquals('name', $class->getName());
-        $this->assertNull($class->getFileName());
+        $this->assertEquals('fileName', $class->getFileName());
         $this->assertNull($class->getStartLine());
         $this->assertNull($class->getEndLine());
     }
 
-    public function testConstructNegStartLineNullsValues()
+    public function testConstructNegStartLineNullsLinesValues()
     {
         $class = new cfhCompile_Class_Manual(
                                             'name',
@@ -105,12 +105,12 @@ extends PHPUnit_Framework_TestCase
                                             10
                                             );
         $this->assertEquals('name', $class->getName());
-        $this->assertNull($class->getFileName());
+        $this->assertEquals('fileName', $class->getFileName());
         $this->assertNull($class->getStartLine());
         $this->assertNull($class->getEndLine());
     }
 
-    public function testConstructNegEndLineNullsValues()
+    public function testConstructNegEndLineNullsLinesValues()
     {
         $class = new cfhCompile_Class_Manual(
                                             'name',
@@ -119,7 +119,7 @@ extends PHPUnit_Framework_TestCase
                                             -10
                                             );
         $this->assertEquals('name', $class->getName());
-        $this->assertNull($class->getFileName());
+        $this->assertEquals('fileName', $class->getFileName());
         $this->assertNull($class->getStartLine());
         $this->assertNull($class->getEndLine());
     }
