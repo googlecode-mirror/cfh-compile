@@ -3,7 +3,7 @@
  * @category    cfh
  * @package     cfhCompile
  * @subpackage  UnitTests
- * @copyright   Copyright (c) 2007 William Bailey
+ * @copyright   Copyright (c) 2007 - 2008 William Bailey <william.bailey@cowboysfromhell.co.uk>.
  * @license     http://www.gnu.org/licenses/lgpl.html     Lesser GPL
  * @version     $Id$
  */
@@ -35,7 +35,7 @@ else
  * @category    cfh
  * @package     cfhCompile
  * @subpackage  UnitTests
- * @copyright   Copyright (c) 2007 William Bailey
+ * @copyright   Copyright (c) 2007 - 2008 William Bailey <william.bailey@cowboysfromhell.co.uk>.
  */
 class AllTests
 {
