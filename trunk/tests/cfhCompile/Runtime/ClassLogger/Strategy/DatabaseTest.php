@@ -74,13 +74,9 @@ extends PHPUnit_Extensions_Database_TestCase
                                         );
         $l = $this->getMock(
                            'cfhCompile_Runtime_ClassLogger_Strategy_Database',
-                           array('getInstanceId', 'getTimestamp'),
+                           array('getTimestamp'),
                            array($this->pdo, 'test')
                            );
-        $l->expects($this->any())
-          ->method('getInstanceId')
-          ->will($this->returnValue('00112233445566778899aabbccddeeff'))
-          ;
         $l->expects($this->any())
           ->method('getTimestamp')
           ->will($this->returnValue('1111111111'))
@@ -110,13 +106,9 @@ extends PHPUnit_Extensions_Database_TestCase
                                            );
         $l = $this->getMock(
                            'cfhCompile_Runtime_ClassLogger_Strategy_Database',
-                           array('getInstanceId', 'getTimestamp'),
+                           array('getTimestamp'),
                            array($this->pdo, 'foo')
                            );
-        $l->expects($this->any())
-          ->method('getInstanceId')
-          ->will($this->returnValue('00112233445566778899aabbccddeeff'))
-          ;
         $l->expects($this->any())
           ->method('getTimestamp')
           ->will($this->returnValue('1111111111'))
@@ -147,23 +139,18 @@ extends PHPUnit_Extensions_Database_TestCase
                                            );
         $l = $this->getMock(
                            'cfhCompile_Runtime_ClassLogger_Strategy_Database',
-                           array('getInstanceId', 'getTimestamp'),
+                           array('getTimestamp'),
                            array($this->pdo, 'foo')
                            );
         $l->expects($this->any())
-          ->method('getInstanceId')
-          ->will($this->onConsecutiveCalls(
-                                          '00112233445566778899aabbccddeeff',
-                                          'ffeeddccbbaa99887766554433221100'
-                                          ))
-          ;
-        $l->expects($this->any())
           ->method('getTimestamp')
           ->will($this->onConsecutiveCalls(
+                                          '1111111110',
                                           '1111111111',
                                           '1111111112',
                                           '1111111113',
-                                          '1111111114'
+                                          '1111111114',
+                                          '1111111115'
                                           ))
           ;
         // First run...
