@@ -13,21 +13,26 @@ CREATE TABLE IF NOT EXISTS application (
   application_name  STRING
 );
 
-CREATE TABLE IF NOT EXISTS source_file (
-  source_file_id    INTEGER PRIMARY KEY AUTOINCREMENT,
-  source_file_name  STRING
+CREATE TABLE IF NOT EXISTS file (
+  file_id           INTEGER PRIMARY KEY AUTOINCREMENT,
+  file_name         STRING
 );
 
 CREATE TABLE IF NOT EXISTS class (
   class_id          INTEGER PRIMARY KEY AUTOINCREMENT,
   class_name        STRING,
-  source_file_id    INTEGER
+  file_id           INTEGER
 );
 
 CREATE TABLE IF NOT EXISTS occurance (
   occurance_id      INTEGER PRIMARY KEY AUTOINCREMENT,
   application_id    INTEGER,
-  instance_id       STRING,
+  instance_id       INTEGER,
   class_id          INTEGER,
+  timestamp         INTEGER
+);
+
+CREATE TABLE IF NOT EXISTS instance (
+  instance_id       INTEGER PRIMARY KEY AUTOINCREMENT,
   timestamp         INTEGER
 );

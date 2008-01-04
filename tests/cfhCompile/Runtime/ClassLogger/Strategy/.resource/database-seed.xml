@@ -1,9 +1,11 @@
 <dataset>
     <application application_id="1" application_name="foo" />
-    <source_file source_file_id="1" source_file_name="/path/to/foo/classes.php" />
-    <class class_id="1" class_name="bar" source_file_id="1" />
-    <class class_id="2" class_name="baz" source_file_id="1" />
-    <occurance occurance_id="1" application_id="1" instance_id="3858f62230ac3c915f300c664312c63f" class_id="1" timestamp="1199399561"/>
-    <occurance occurance_id="2" application_id="1" instance_id="3858f62230ac3c915f300c664312c63f" class_id="2" timestamp="1199399562"/>
-    <occurance occurance_id="3" application_id="1" instance_id="5b273dc47021cf8b860f842c6a9411aa" class_id="1" timestamp="1199399694"/>
+    <file file_id="1" file_name="/path/to/foo/classes.php" />
+    <class class_id="1" class_name="bar" file_id="1" />
+    <class class_id="2" class_name="baz" file_id="1" />
+    <instance instance_id="1" timestamp="1199399561" />
+    <instance instance_id="2" timestamp="1199399694" />
+    <occurance occurance_id="1" application_id="1" instance_id="1" class_id="1" timestamp="1199399561"/>
+    <occurance occurance_id="2" application_id="1" instance_id="1" class_id="2" timestamp="1199399562"/>
+    <occurance occurance_id="3" application_id="1" instance_id="2" class_id="1" timestamp="1199399694"/>
 </dataset>

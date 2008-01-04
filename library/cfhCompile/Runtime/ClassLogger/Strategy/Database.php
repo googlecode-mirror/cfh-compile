@@ -68,25 +68,25 @@ implements cfhCompile_Runtime_ClassLogger_Strategy_Interface
         $this->appName = (string) $appName;
         $this->dbh     = $dbh;
         $this->stmtFileSelect  = $this->dbh->prepare('
-                                 SELECT source_file_id
-                                 FROM   source_file
-                                 WHERE  source_file_name = :source_file_name
+                                 SELECT file_id
+                                 FROM   file
+                                 WHERE  file_name = :file_name
                                  ');
         $this->stmtFileInsert  = $this->dbh->prepare('
-                                 INSERT INTO source_file
-                                 (source_file_name) VALUES (:source_file_name)
+                                 INSERT INTO file
+                                 (file_name) VALUES (:file_name)
                                  ');
         $this->stmtClassSelect = $this->dbh->prepare('
                                  SELECT class_id
                                  FROM   class
                                  WHERE  class_name     = :class_name
-                                   AND  source_file_id = :source_file_id
+                                   AND  file_id = :file_id
                                  ');
         $this->stmtClassInsert = $this->dbh->prepare('
                                  INSERT INTO class
-                                 ( class_name,  source_file_id)
+                                 ( class_name,  file_id)
                                  VALUES
-                                 (:class_name, :source_file_id)
+                                 (:class_name, :file_id)
                                  ');
         $this->stmtLogInsert   = $this->dbh->prepare('
                                  INSERT INTO occurance
@@ -134,7 +134,7 @@ implements cfhCompile_Runtime_ClassLogger_Strategy_Interface
         $this->stmtLogInsert->bindValue(
                                        ':instance_id',
                                        $this->getInstanceId(),
-                                       PDO::PARAM_STR
+                                       PDO::PARAM_INT
                                        );
     }
 
@@ -173,7 +173,7 @@ implements cfhCompile_Runtime_ClassLogger_Strategy_Interface
     protected function getFileId(cfhCompile_Class_Interface $class)
     {
         $this->stmtFileSelect->bindValue(
-                                        ':source_file_name',
+                                        ':file_name',
                                         $class->getFileName(),
                                         PDO::PARAM_STR
                                         );
@@ -183,7 +183,7 @@ implements cfhCompile_Runtime_ClassLogger_Strategy_Interface
         if(!$id)
         {
             $this->stmtFileInsert->bindValue(
-                                            ':source_file_name',
+                                            ':file_name',
                                             $class->getFileName(),
                                             PDO::PARAM_STR
                                             );
@@ -206,7 +206,7 @@ implements cfhCompile_Runtime_ClassLogger_Strategy_Interface
                                          PDO::PARAM_STR
                                          );
         $this->stmtClassSelect->bindValue(
-                                         ':source_file_id',
+                                         ':file_id',
                                          $fileId,
                                          PDO::PARAM_INT
                                          );
@@ -221,7 +221,7 @@ implements cfhCompile_Runtime_ClassLogger_Strategy_Interface
                                              PDO::PARAM_STR
                                              );
             $this->stmtClassInsert->bindValue(
-                                             ':source_file_id',
+                                             ':file_id',
                                              $fileId,
                                              PDO::PARAM_INT
                                              );
@@ -233,7 +233,13 @@ implements cfhCompile_Runtime_ClassLogger_Strategy_Interface
 
     protected function getInstanceId()
     {
-        return hash('md5', uniqid(mt_rand(), TRUE));
+        $stmt = $this->dbh->prepare('
+                                    INSERT INTO instance
+                                    (timestamp) VALUES (:timestamp)
+                                    ');
+        $stmt->bindValue(':timestamp', $this->getTimestamp(), PDO::PARAM_INT);
+        $stmt->execute();
+        return $this->dbh->lastInsertId();
     }
 
     protected function getTimestamp()
