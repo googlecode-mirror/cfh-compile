@@ -132,6 +132,13 @@ implements cfhCompile_CodeReader_ReadStrategy_Interface
                     {
                         list($token, $text) = $token;
                         $code .= $text;
+                        switch($token)
+                        {
+                            case T_CURLY_OPEN:
+                            case T_DOLLAR_OPEN_CURLY_BRACES:
+                                $depth++;
+                                break;
+                        }
                     }
                     break;
             }

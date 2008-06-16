@@ -192,6 +192,13 @@ implements cfhCompile_ClassIterator_Interface
                     else
                     {
                         list($token, $text, $endLine) = $token;
+                        switch($token)
+                        {
+                            case T_CURLY_OPEN:
+                            case T_DOLLAR_OPEN_CURLY_BRACES:
+                                $depth++;
+                                break;
+                        }
                         if($depth == 2)
                         {
                             $depth = -1;
